@@ -12,7 +12,7 @@ Cairo is a fast, hassle-free ordering system that lets you browse smartly, place
 
 -----
 
-### Overview
+## Overview
 
   * **`/`**: Browse and select a restaurant
 
