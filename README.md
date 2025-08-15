@@ -1,54 +1,43 @@
-# Cairo
+# no-nonsense ordering experience
 
-**Overview**
+Cairo is a fast, hassle-free ordering system that lets you browse smartly, place, and manage your orders with just a few taps
 
-Cairo is a fast, hassle-free ordering system that lets you browse menus, place orders, and manage your deliveries  with just a few taps.
+-----
 
----
+## Stack & Structure
 
-**Features**
+  * **Backend (Routes, Controllers, Services, DAOs):** Next.js, TypeScript, Prisma, PostgreSQL, Stripe, Zod
 
-- **Restaurant Selection**: Users can choose from a list of available restaurants.
-- **Order Type**: Select between "Dine-in" or "Takeaway" to suit your dining preference.
-- **Categorized Menu**: Browse food items organized by categories for easy navigation.
-- **Shopping Cart**: A persistent, context-based cart to add and manage your selected items.
-- **Secure Checkout**: Integrated with Stripe for a secure and reliable payment process.
-- **Order Tracking**: Users can track the status of their orders using their CPF.
-- **Responsive Design**: A mobile-first interface that provides a great experience on any device.
+  * **Frontend (React Components, Contexts, Hooks):** Next.js (App Router), React, TypeScript, TailwindCSS, Radix UI, React Hook Form
 
----
+-----
 
-**Stack & Structure**
+### Overview
 
-- **Framework**: Next.js (App Router, Server Actions)
-- **Styling**: TailwindCSS with `tailwindcss-animate` for UI animations.
-- **UI Components**: Built with Radix UI for accessible and unstyled primitives, and `lucide-react` for icons.
-- **Database & ORM**: PostgreSQL with Prisma for type-safe database access.
-- **Forms & Validation**: `react-hook-form` and `zod` for robust form management.
-- **Payments**: Stripe handles all payment processing.
-- **Language**: TypeScript.
+  * **`/`**: Browse and select a restaurant
 
----
+  * **`/[slug]`**: Choose an order type
 
-**Run**
+  * **`/[slug]/menu`**: Explore the menu and build your cart
 
-After cloning the repo:
+  * **`/[slug]/menu/[productId]`**: View item details
 
-1.  **Install dependencies:**
+  * **`/[slug]/orders`**: Track your order history
+
+-----
+
+## Run
+
+1.  **Clone the repository and install dependencies:**
 
 ```bash
-npm install
+git clone https://github.com/efdourado/fs-cairo.git && cd fs-cairo && npm install
 ```
 
-2.  **Set up environment variables:**
+2.  **Set up environment variables** by copying the example (and fill in your secrets):
 
-Create a `.env` file in the root of the project and add the following variables:
-
-```env
-DATABASE_URL=
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET_KEY=
-NEXT_PUBLIC_STRIPE_PUBLIC_KEY=
+```bash
+cp .env.example .env
 ```
 
 3.  **Run the database migrations:**
@@ -58,8 +47,6 @@ npx prisma migrate dev
 ```
 
 4.  **Seed the database (optional):**
-
-To populate the database with initial data:
 
 ```bash
 npx prisma db seed
@@ -76,17 +63,3 @@ npm run dev
 ```bash
 npm run build
 ```
-
----
-
-**Roadmap**
-
-Here is a roadmap of features planned for future versions of Cairo:
-
-- **Search & Filtering**: Implement a search to find restaurants and specific food items, and add filtering options (e.g., by price, category).
-- **User Accounts**: Allow users to create accounts to save their order history, delivery addresses, and payment methods.
-- **Real-time Order Updates**: Use WebSockets to provide real-time updates on order status.
-- **Restaurant Reviews**: Enable users to rate and review restaurants and food items.
-- **Admin Dashboard**: Enhance the admin capabilities for managing restaurants, menus, and orders.
-- **Advanced Recommendations**: Introduce a recommendation system based on user preferences and order history.
-- **Promotions & Discounts**: Add a system for creating and applying promotional codes.
