@@ -1,6 +1,6 @@
 # no-nonsense ordering experience
 
-Cairo is a fast, hassle-free ordering system that lets you browse smartly, place, and manage your orders with just a few taps
+Cairo is a fast, hassle-free food ordering system that lets you browse smartly, place, and manage your orders with just a few taps
 
 -----
 

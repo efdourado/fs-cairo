@@ -49,13 +49,19 @@ export default {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
+  			},
+			footer: {
+  				inactive: 'hsl(var(--footer-inactive))'
+  			},
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		boxShadow: {
+  			't-md': '0 -2px 8px rgba(0, 0, 0, 0.05)'
+  		},
   	}
   },
   plugins: [require("tailwindcss-animate")],

@@ -22,6 +22,8 @@
     "@stripe/stripe-js": "^5.7.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.474.0",
     "next": "15.3.5",
     "next-themes": "^0.4.4",
@@ -32,6 +34,7 @@
     "react-number-format": "^5.4.3",
     "sonner": "^1.7.4",
     "stripe": "^18.3.0",
+    "swr": "^2.3.6",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2",
@@ -45,4 +48,5 @@
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5"
-} }
+  }
+}

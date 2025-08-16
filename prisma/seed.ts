@@ -6,8 +6,8 @@ const main = async () => {
 
   const restaurant = await prismaClient.restaurant.create({
     data: {
-      name: "McDonald's Model",
-      slug: "mcdonaldsmodel",
+      name: "Dar El Salam",
+      slug: "darelsalam",
       description: "Taste the Difference",
       logoUrl: "/logo-mcdonalds.png",
       bannerUrl: "/banner-mcdonalds.jpg",
