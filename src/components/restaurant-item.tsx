@@ -12,12 +12,12 @@ const RestaurantItem = ({ restaurant }: RestaurantItemProps) => {
     <Link href={`/${restaurant.slug}`}>
       <Card className="min-w-full max-w-full rounded-lg border-none shadow-md transition-transform duration-300 hover:scale-105">
         <CardContent className="p-0">
-          <div className="relative h-48 w-full">
+          <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
             <Image
               src={restaurant.bannerUrl}
               alt={restaurant.name}
               fill
-              className="rounded-t-lg object-cover"
+              className="object-cover"
               priority
             />
           </div>

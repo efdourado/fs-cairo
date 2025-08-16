@@ -1,26 +1,33 @@
 const { PrismaClient } = require("@prisma/client");
-
 const prismaClient = new PrismaClient();
 
 const main = async () => {
-  await prismaClient.$transaction(async (tx: any) => {
-    await tx.restaurant.deleteMany();
-    const restaurant = await tx.restaurant.create({
-      data: {
-        name: "McDonald's Model",
-        slug: "mcdonaldsmodel",
-        description: "Taste the Difference",
-        logoUrl: "/logo-mcdonalds.png",
-        bannerUrl: "/banner-mcdonalds.jpg",
-    }, });
+  await prismaClient.restaurant.deleteMany();
 
-    const breakfastCategory = await tx.category.create({
-      data: {
-        name: "Breakfast",
-        restaurantId: restaurant.id,
-    }, });
-    await tx.product.createMany({
-      data: [
+  const restaurant = await prismaClient.restaurant.create({
+    data: {
+      name: "McDonald's Model",
+      slug: "mcdonaldsmodel",
+      description: "Taste the Difference",
+      logoUrl: "/logo-mcdonalds.png",
+      bannerUrl: "/banner-mcdonalds.jpg",
+  }, });
+
+  const createProducts = async (products: any[], categoryId: string) => {
+    const batchSize = 10;
+    for (let i = 0; i < products.length; i += batchSize) {
+      const batch = products.slice(i, i + batchSize);
+      await prismaClient.product.createMany({
+        data: batch.map(p => ({
+          ...p,
+          categoryId,
+          restaurantId: restaurant.id,
+  })), }); } };
+
+  const categories = [
+    {
+      name: "Breakfast",
+      products: [
         {
           name: "Hotcakes",
           description: "If you love hot pancakes, you've got to try McDonald's Hotcakes with a side of real butter and sweet maple flavored Hotcake syrup.",
@@ -30,19 +37,13 @@ const main = async () => {
             "Salted Whipped Butter.",
           ],
           price: 6.5,
-          imageUrl:"https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202208_0031_3HotCakes_2000x2000.png.coredownload.png",
-          categoryId: breakfastCategory.id,
-          restaurantId: restaurant.id,
-  }, ], });
-
-
-    const dealsCategory = await tx.category.create({
-      data: {
-        name: "Deals",
-        restaurantId: restaurant.id,
-    }, });
-    await tx.product.createMany({
-      data: [
+          imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202208_0031_3HotCakes_2000x2000.png.coredownload.png",
+        },
+      ],
+    },
+    {
+      name: "Deals",
+      products: [
         {
           name: "4 pc. Chicken McNugget® Happy Meal®",
           description: "Pieces of chicken, covered in crispy bread crumbs, and a drink will serve as a great meal for the youngest visitors of McDonald's!",
@@ -53,9 +54,7 @@ const main = async () => {
             "A drink of your choice.",
           ],
           price: 28.4,
-          imageUrl:"https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202103_7002_4McNuggetsHappyMeal_AppleSlices_WhiteMilkJug_Left_2000x2000.png.coredownload.png",
-          categoryId: dealsCategory.id,
-          restaurantId: restaurant.id,
+          imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202103_7002_4McNuggetsHappyMeal_AppleSlices_WhiteMilkJug_Left_2000x2000.png.coredownload.png",
         },
         {
           name: "Big Breakfast® with Hotcakes",
@@ -73,17 +72,12 @@ const main = async () => {
           ],
           price: 43.8,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202208_3590_BigBreakfast_HotCakes_2000x2000.png.coredownload.png",
-          categoryId: dealsCategory.id,
-          restaurantId: restaurant.id,
-    }, ], });
-
-    const burguersCategory = await tx.category.create({
-      data: {
-        name: "Burgers",
-        restaurantId: restaurant.id,
-    }, });
-    await tx.product.createMany({
-      data: [
+        },
+      ],
+    },
+    {
+      name: "Burgers",
+      products: [
         {
           name: "Big Mac",
           description: "This double layered burger is a McDonald's classic! Two perfectly fried patties with a special sauce attract those who have tried this dish at least once, and even those who have never heard of it before!",
@@ -98,8 +92,6 @@ const main = async () => {
           ],
           price: 18.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202302_0005-999_BigMac_2000x2000.png.coredownload.png",
-          categoryId: burguersCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Double Quarter Pounder® with Cheese",
@@ -115,8 +107,6 @@ const main = async () => {
           ],
           price: 34.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202201_4308-005_DoubleQuarterPounderCheeseDeluxe_Shredded_2000x2000.png.coredownload.png",
-          categoryId: burguersCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Double Bacon Quarter Pounder® with Cheese & Bacon",
@@ -124,8 +114,6 @@ const main = async () => {
           ingredients: [],
           price: 36.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202201_4333-005_DoubleQuarterPounderBaconCheese_2000x2000.png.coredownload.png",
-          categoryId: burguersCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Cheeseburger",
@@ -142,8 +130,6 @@ const main = async () => {
           ],
           price: 16.2,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202302_0003-999_CheeseburgerAlt_2000x2000.png.coredownload.png",
-          categoryId: burguersCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Double Cheeseburger",
@@ -159,8 +145,6 @@ const main = async () => {
           ],
           price: 18.0,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202302_0004-999_DoubleCheeseburger_2000x2000.png.coredownload.png",
-          categoryId: burguersCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Filet-O-Fish®",
@@ -173,25 +157,18 @@ const main = async () => {
           ],
           price: 16.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202302_5926-999_Filet-O-Fish_HalfSlice_2000x2000.png.coredownload.png",
-          categoryId: burguersCategory.id,
-          restaurantId: restaurant.id,
-    }, ], });
-
-    const sidesCategory = await tx.category.create({
-      data: {
-        name: "Sides",
-        restaurantId: restaurant.id,
-    }, });
-    await tx.product.createMany({
-      data: [
+        },
+      ],
+    },
+    {
+      name: "Sides",
+      products: [
         {
           name: "Fries",
           description: "Thin deep-fried potato stripes are one of the most popular fast-food items, which are loved by absolutely everyone. The main advantage of this dish is that it goes perfectly with any sauce, so you can experiment with its taste!",
           ingredients: [],
           price: 2.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/8932_MediumFries.uuid.png.coredownload.png",
-          categoryId: sidesCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "4 pc. Chicken McNuggets®",
@@ -199,8 +176,6 @@ const main = async () => {
           ingredients: [],
           price: 3.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202006_0483_4McNuggets_Stacked_2000x2000.png.coredownload.png",
-          categoryId: sidesCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Apple Slices",
@@ -208,25 +183,18 @@ const main = async () => {
           ingredients: [],
           price: 1.5,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202002_2794_AppleSlices_NoBag_2000x2000.png.coredownload.png",
-          categoryId: sidesCategory.id,
-          restaurantId: restaurant.id,
-    }, ], });
-
-    const beveragesCategory = await tx.category.create({
-      data: {
-        name: "Beverages & Milkshakes",
-        restaurantId: restaurant.id,
-    }, });
-    await tx.product.createMany({
-      data: [
+        },
+      ],
+    },
+    {
+      name: "Beverages & Milkshakes",
+      products: [
         {
           name: "Coke®",
           description: "The original, refreshing ice-cold cola that goes well with your meal and completes the experience.",
           ingredients: [],
           price: 6.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202112_0521_MediumCoke_Glass_2000x2000.png.coredownload.png",
-          categoryId: beveragesCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Sprite®",
@@ -234,8 +202,6 @@ const main = async () => {
           ingredients: [],
           price: 8.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202212_0721_MediumSprite_Glass_2000x2000.png.coredownload.png",
-          categoryId: beveragesCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Chocolate Shake",
@@ -247,8 +213,6 @@ const main = async () => {
           ],
           price: 9.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/1509_MediumChocolateShake_Glass_A1.uuid.png.coredownload.png",
-          categoryId: beveragesCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "DASANI® Bottled Water",
@@ -256,43 +220,30 @@ const main = async () => {
           ingredients: [],
           price: 2.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202106_5474_DasaniBottledWater_2000x2000.png.coredownload.png",
-          categoryId: beveragesCategory.id,
-          restaurantId: restaurant.id,
-    }, ], });
-
-    const saladsCategory = await tx.category.create({
-      data: {
-        name: "Salads",
-        restaurantId: restaurant.id,
-      },
-    });
-    await tx.product.createMany({
-      data: [
+        },
+      ],
+    },
+    {
+      name: "Salads",
+      products: [
         {
           name: "Southwest Style Salad with Chicken",
           description: "No description",
           ingredients: [],
           price: 23.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_201907_3642_SouthwestSalad_Grilled_2000x2000.png.coredownload.png",
-          categoryId: saladsCategory.id,
-          restaurantId: restaurant.id,
-    }, ] });
-
-    const coffeesCategory = await tx.category.create({
-      data: {
-        name: "McCafé® Coffees",
-        restaurantId: restaurant.id,
-    }, });
-    await tx.product.createMany({
-      data: [
+        },
+      ],
+    },
+    {
+      name: "McCafé® Coffees",
+      products: [
         {
           name: "Americano",
           description: "Our simple yet satisfying Americano is made with hot water poured over our Rainforest Alliance Certified™ espresso.",
           ingredients: [],
           price: 2.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_201906_1318_MediumAmericano_Glass_A1_HL_2000x2000.png.coredownload.png",
-          categoryId: coffeesCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Iced Coffee",
@@ -305,8 +256,6 @@ const main = async () => {
           ],
           price: 23.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_201906_1212_MediumIcedCoffee_Glass_A1_2000x2000.png.coredownload.png",
-          categoryId: coffeesCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Iced French Vanilla Latte",
@@ -320,8 +269,6 @@ const main = async () => {
           ],
           price: 21.6,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_201906_0187_MediumIcedFrenchVanillaLatte_Glass_A1_2000x2000.png.coredownload.png",
-          categoryId: coffeesCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Iced Caramel Macchiato",
@@ -336,8 +283,6 @@ const main = async () => {
           ],
           price: 16.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_201906_2743_MediumIcedCaramelMacchiato_Glass_A1_2000x2000.png.coredownload.png",
-          categoryId: coffeesCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Caramel Frappé",
@@ -350,25 +295,18 @@ const main = async () => {
           ],
           price: 26.9,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_201906_2842_MediumCaramelFrappe_Glass_A1_2000x2000.png.coredownload.png",
-          categoryId: coffeesCategory.id,
-          restaurantId: restaurant.id,
-    }, ] });
-
-    const sweetsCategory = await tx.category.create({
-      data: {
-        name: "Sweets & Treats",
-        restaurantId: restaurant.id,
-    }, });
-    await tx.product.createMany({
-      data: [
+        },
+      ],
+    },
+    {
+      name: "Sweets & Treats",
+      products: [
         {
           name: "Chocolate Cookies",
           description: "An amazingly delicious, soft and chewy Chocolate Cookie. Our recipe features a perfectly warm, soft baked cookie loaded with gooey chocolate chips. Enjoy it on its own as a snack or pair it with your favorite McDonald's meal.",
           ingredients: [],
           price: 1.6,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202004_1852_ChocolateChipCookie_Broken_2000x2000.png.coredownload.png",
-          categoryId: sweetsCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Baked Apple Pie",
@@ -376,8 +314,6 @@ const main = async () => {
           ingredients: [],
           price: 8.2,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_202004_0706_BakedApplePie_Broken_2000x2000.png.coredownload.png",
-          categoryId: sweetsCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Vanilla Cone",
@@ -385,8 +321,6 @@ const main = async () => {
           ingredients: [],
           price: 3.8,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/0366_VanillaCone.uuid.png.coredownload.png",
-          categoryId: sweetsCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "Caramel Sundae",
@@ -394,8 +328,6 @@ const main = async () => {
           ingredients: [],
           price: 8.6,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/0345_CaramelSundae.uuid.png.coredownload.png",
-          categoryId: sweetsCategory.id,
-          restaurantId: restaurant.id,
         },
         {
           name: "OREO® McFlurry®",
@@ -403,10 +335,27 @@ const main = async () => {
           ingredients: [],
           price: 12.8,
           imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/3832_OreoMcFlurry.uuid%20(1).png.coredownload.png",
-          categoryId: sweetsCategory.id,
-          restaurantId: restaurant.id,
-}, ] }); });};
+  }, ], }, ];
+
+  for (const category of categories) {
+    console.log(`Creating category: ${category.name}`);
+    
+    const createdCategory = await prismaClient.category.create({
+      data: {
+        name: category.name,
+        restaurantId: restaurant.id,
+    }, });
+
+    console.log(`Adding ${category.products.length} products...`);
+    await createProducts(category.products, createdCategory.id);
+} };
 
 main()
-  .catch((e) => { throw e; })
-  .finally(async () => { await prismaClient.$disconnect(); });
+  .catch((e) => {
+    console.error("Seed failed:", e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prismaClient.$disconnect();
+    console.log("Seed completed successfully!");
+  });

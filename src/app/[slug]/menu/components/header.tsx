@@ -17,7 +17,7 @@ const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
   const handleBackClick = () => router.back();
   const handleOrdersClick = () => router.push(`/${slug}/orders`);
   return (
-    <div className="relative h-[250px] w-full">
+    <div className="relative h-[250px] w-full overflow-hidden">
       <Button
         variant="secondary"
         size="icon"
@@ -41,7 +41,6 @@ const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
         <ScrollTextIcon />
       </Button>
     </div>
-  );
-};
+); };
 
 export default RestaurantHeader;

@@ -17,8 +17,7 @@ export class PaymentService implements IPaymentService {
     }
     this.stripe = new Stripe(stripeSecretKey, {
       apiVersion: "2025-06-30.basil",
-    });
-  }
+  }); }
 
   async createStripeCheckout({
     orderId,

@@ -33,6 +33,18 @@ const getStatusLabel = (status: OrderStatus) => {
     default: return "";
 } };
 
+const getStatusClass = (status: OrderStatus) => {
+    switch (status) {
+      case "PAYMENT_CONFIRMED":
+      case "READY":
+        return "bg-green-500 text-white";
+      case "PAYMENT_FAILED":
+        return "bg-red-500 text-white";
+      default:
+        return "bg-gray-200 text-gray-500";
+    }
+};
+
 const OrderList = ({ orders }: OrderListProps) => {
   const router = useRouter();
 
@@ -65,7 +77,7 @@ const OrderList = ({ orders }: OrderListProps) => {
         <Card key={order.id}>
           <CardContent className="space-y-4 p-5">
             <div
-              className={`w-fit rounded-full px-2 py-1 text-xs font-semibold text-white ${([OrderStatus.PAYMENT_CONFIRMED, OrderStatus.READY] as OrderStatus[]).includes(order.status) ? "bg-green-500 text-white" : "bg-gray-200 text-gray-500"}`}
+              className={`w-fit rounded-full px-2 py-1 text-xs font-semibold ${getStatusClass(order.status)}`}
             >
               {getStatusLabel(order.status)}
             </div>
