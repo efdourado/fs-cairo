@@ -236,69 +236,6 @@ const main = async () => {
       ],
     },
     {
-      name: "McCafé® Coffees",
-      products: [
-        {
-          name: "Americano",
-          description: "Our simple yet satisfying Americano is made with hot water poured over our Rainforest Alliance Certified™ espresso.",
-          ingredients: [],
-          price: 2.9,
-          imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_201906_1318_MediumAmericano_Glass_A1_HL_2000x2000.png.coredownload.png",
-        },
-        {
-          name: "Iced Coffee",
-          description: "The McCafé Iced Coffee features 100% Arabica beans, cream and your choice of flavor like Caramel, French Vanilla and Sugar-Free French Vanilla.* A fan of black coffee? Get it without the sugar or cream to refresh your mornings with a cool Black Iced Coffee.",
-          ingredients: [
-            "Brewed Coffee;",
-            "Ice;",
-            "Light Cream;",
-            "Liquid Sugar.",
-          ],
-          price: 23.9,
-          imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_201906_1212_MediumIcedCoffee_Glass_A1_2000x2000.png.coredownload.png",
-        },
-        {
-          name: "Iced French Vanilla Latte",
-          description: "Cool down with a McCafé® Iced French Vanilla Latte, made with Rainforest Alliance Certified™ espresso. It features bold espresso, whole milk and sweet French Vanilla syrup.",
-          ingredients: [
-            "Whole Milk;",
-            "Ice;",
-            "French Vanilla Syrup",
-            "Water;",
-            "Espresso.",
-          ],
-          price: 21.6,
-          imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_201906_0187_MediumIcedFrenchVanillaLatte_Glass_A1_2000x2000.png.coredownload.png",
-        },
-        {
-          name: "Iced Caramel Macchiato",
-          description: "The McDonald's Iced Caramel Macchiato recipe features bold, rich and dark-roasted espresso and buttery caramel syrup with extra caramel drizzle. Served with whole milk, it's almost similar to an Iced Caramel Latte but with an extra buttery caramel drizzle.",
-          ingredients: [
-            "Whole Milk;",
-            "Ice;",
-            "Caramel Syrup;",
-            "Water;",
-            "Espresso;",
-            "Caramel Drizzle.",
-          ],
-          price: 16.9,
-          imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_201906_2743_MediumIcedCaramelMacchiato_Glass_A1_2000x2000.png.coredownload.png",
-        },
-        {
-          name: "Caramel Frappé",
-          description: "The McCafé Caramel Frappé recipe blends rich caramel flavor with a hint of coffee, blended with ice and is topped with whipped light cream.",
-          ingredients: [
-            "Ice;",
-            "Caramel Coffee Frappe Base",
-            "Whipped Light Cream",
-            "Caramel Drizzle.",
-          ],
-          price: 26.9,
-          imageUrl: "https://corporate.mcdonalds.com/content/dam/sites/corp/nfl/newsroom/menu-items-2023/NR_201906_2842_MediumCaramelFrappe_Glass_A1_2000x2000.png.coredownload.png",
-        },
-      ],
-    },
-    {
       name: "Sweets & Treats",
       products: [
         {

@@ -27,7 +27,7 @@ export default function RootLayout({
         <CartProvider>
           <div className="flex h-full flex-col">
             <Header />
-            <main className="flex-1 overflow-y-auto rounded-t-3xl bg-background pb-20 shadow-lg">
+            <main className="flex-1 overflow-y-auto bg-background pb-20 shadow-lg">
               {children}
             </main>
             <Footer />

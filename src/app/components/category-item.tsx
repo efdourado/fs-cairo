@@ -8,8 +8,8 @@ interface CategoryItemProps {
 
 export const CategoryItem = ({ category }: CategoryItemProps) => {
   const categoryImages: { [key: string]: string } = {
-    Deals: "/banner-mcdonalds.jpg",
-    Burgers: "/burgers.png",
+    Burgers: "/burger.png",
+    Sides: "/fries.png",
   };
 
   const categoryImage =

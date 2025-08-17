@@ -19,7 +19,7 @@ const Header = () => {
   const isHomePage = pathname === "/";
 
   return (
-    <header className="px-6 py-4">
+    <header className="px-6 py-4 rounded-b-3xl bg-background">
       <div className="flex items-center justify-between">
         {isHomePage ? (
           <div className="flex flex-col">
@@ -36,7 +36,7 @@ const Header = () => {
             onClick={handleBackClick}
             variant="secondary"
             size="icon"
-            className="rounded-full"
+            className="absolute left-4 top-4 z-50 rounded-full"
           >
             <ChevronLeftIcon />
           </Button>
