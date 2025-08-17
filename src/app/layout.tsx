@@ -12,7 +12,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Cairo Eats",
+  title: "Cairo",
   description: "Taste the Difference",
 };
 

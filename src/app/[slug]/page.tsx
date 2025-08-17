@@ -34,7 +34,6 @@ const RestaurantPage = () => {
 
   return (
     <div className="relative flex h-full flex-col">
-      {/* Header do Restaurante */}
       <div className="relative h-48 w-full">
         <Image
           src={restaurant.bannerUrl}

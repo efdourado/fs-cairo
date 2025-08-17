@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import RestaurantCategories from "./components/categories";
-import RestaurantHeader from "./components/header";
 import { RestaurantController } from "@/controllers/restaurant.controller";
+import Image from "next/image";
+
 
 interface RestaurantMenuPageProps {
   params: Promise<{ slug: string }>;
@@ -33,7 +34,15 @@ const RestaurantMenuPage = async ({
 
   return (
     <div>
-      <RestaurantHeader restaurant={restaurant} />
+      <div className="relative h-[250px] w-full">
+        <Image
+          src={restaurant.bannerUrl}
+          alt={restaurant.name}
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/50" />
+      </div>
       <RestaurantCategories restaurant={restaurant} />
     </div>
 ); };

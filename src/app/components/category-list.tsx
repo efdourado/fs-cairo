@@ -2,7 +2,9 @@ import { db } from "@/lib/prisma";
 import { CategoryItem } from "./category-item";
 
 export const CategoryList = async () => {
-  const categories = await db.category.findMany({});
+  const categories = await db.category.findMany({
+    distinct: ["name"],
+  });
 
   return (
     <div className="flex gap-3 overflow-x-scroll px-5 [&::-webkit-scrollbar]:hidden">

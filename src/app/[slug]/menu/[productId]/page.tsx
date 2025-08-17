@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import ProductDetails from "./components/productDetails";
-import ProductHeader from "./components/productHeader";
 import { ProductController } from "@/controllers/product.controller";
+import Image from "next/image";
 
 interface ProductPageProps {
   params: Promise<{ slug: string; productId: string }>;
@@ -24,7 +24,15 @@ const ProductPage = async ({ params }: ProductPageProps) => {
 
   return (
     <div className="flex h-full flex-col">
-      <ProductHeader product={product} />
+      <div className="relative min-h-[300px] w-full">
+        <Image
+          src={product.imageUrl}
+          alt={product.name}
+          fill
+          className="object-contain"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
+      </div>
       <ProductDetails product={product} />
     </div>
 ); };
