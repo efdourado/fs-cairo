@@ -6,11 +6,12 @@ import { formatCurrency } from "@/helpers/format-currency";
 import OrderTypeSelector from "./components/order-type-selector";
 
 interface RestaurantPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-}; }
+}>; }
 
-const RestaurantPage = async ({ params: { slug } }: RestaurantPageProps) => {
+const RestaurantPage = async ({ params }: RestaurantPageProps) => {
+  const { slug } = await params;
   const { restaurant } = await AppRestaurantController.getRestaurantBySlug(slug);
 
   if (!restaurant) {
