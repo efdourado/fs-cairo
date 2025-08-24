@@ -2,7 +2,8 @@ import { Restaurant } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { Card } from "./ui/card";
-import { StarIcon, TimerIcon } from "lucide-react";
+import { StarIcon, TimerIcon, SparklesIcon } from "lucide-react";
+import { formatCurrency } from "@/helpers/format-currency";
 
 interface RestaurantItemProps {
   restaurant: Restaurant;
@@ -20,25 +21,22 @@ const RestaurantItem = ({ restaurant }: RestaurantItemProps) => {
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-
-          <div className="absolute left-2 top-2 rounded-full bg-primary px-2 py-1 text-xs font-semibold text-white">
-            20% OFF
+          <div className="absolute left-2 top-2 flex items-center gap-1 rounded-full bg-background/80 px-2 py-1 text-xs font-bold backdrop-blur-sm">
+            <StarIcon size={14} className="fill-yellow-400 text-yellow-500" />
+            <span>{restaurant.rating.toFixed(1)}</span>
           </div>
         </div>
         <div className="p-3">
-          <h3 className="truncate font-semibold">{restaurant.name}</h3>
-          <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
-            {/* Mock Data */}
+          <h3 className="truncate text-base font-semibold">{restaurant.name}</h3>
+          <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
             <div className="flex items-center gap-1">
-              <StarIcon size={14} className="text-yellow-500" />
-              <span>4.5</span>
+              <TimerIcon size={14} />
+              <span>{restaurant.deliveryTimeMinutes} min</span>
             </div>
-            <span>Burgers</span>
-            <span>$$</span>
-          </div>
-          <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
-            <TimerIcon size={14} />
-            <span>15-25 min</span>
+            <div className="flex items-center gap-1">
+              <SparklesIcon size={14} className="text-primary" />
+              <span>{formatCurrency(restaurant.deliveryFee)}</span>
+            </div>
           </div>
         </div>
       </Card>

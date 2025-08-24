@@ -4,73 +4,108 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model Restaurant {
-  id String @id @default(uuid())
-  name String
-  slug String @unique
-  description String
-  logoUrl String
-  bannerUrl String
-  categories Category[]
-  products Product[]
-  orders Order[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String     @id @default(uuid())
+  name                String
+  slug                String     @unique
+  description         String
+  logoUrl             String
+  bannerUrl           String
+  categories          Category[]
+  products            Product[]
+  orders              Order[]
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+  rating              Float      @default(4.5)
+  deliveryTimeMinutes Int        @default(30)
+  deliveryFee         Float      @default(5.0)
+  favorites           Favorite[]
 }
 
 model Category {
-  id String @id @default(uuid())
-  name String
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  restaurantId String
-  products Product[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String        @id @default(uuid())
+  name          String
+  restaurant    Restaurant    @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurantId  String
+  subCategories SubCategory[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model SubCategory {
+  id         String    @id @default(uuid())
+  name       String
+  category   Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
+  products   Product[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model Product {
-  id String @id @default(uuid())
-  name String
-  description String
-  price Float
-  imageUrl String
-  ingredients String[]
-  orderProducts OrderProduct[]
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  restaurantId String
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                 String       @id @default(uuid())
+  name               String
+  description        String
+  price              Float
+  imageUrl           String
+  ingredients        String[]
+  orderProducts      OrderProduct[]
+  restaurant         Restaurant   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurantId       String
+  subCategory        SubCategory  @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+  subCategoryId      String
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  discountPercentage Int          @default(0)
 }
 
 model Order {
-  id Int @id @default(autoincrement())
-  total Float
-  status OrderStatus
-  orderType OrderType
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
-  restaurantId String
+  id            Int          @id @default(autoincrement())
+  total         Float
+  status        OrderStatus
+  orderType     OrderType
+  restaurant    Restaurant   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurantId  String
   orderProducts OrderProduct[]
-  customerName String
-  customerCpf String
+  customerName  String
+  customerCpf   String
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model OrderProduct {
+  id        String   @id @default(uuid())
+  quantity  Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   Int
+  price     Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model OrderProduct {
-  id String @id @default(uuid())
-  quantity Int
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String
-  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId Int
-  price Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  favorites Favorite[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Favorite {
+  id           String     @id @default(uuid())
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurantId String
+  createdAt    DateTime   @default(now())
+
+  @@unique([userId, restaurantId])
 }
 
 enum OrderStatus {

@@ -1,23 +1,34 @@
-import { Search } from "./components/search";
+import { db } from "@/lib/prisma";
 import { CategoryList } from "./components/category-list";
-import { RestaurantList } from "@/components/restaurant-list";
 import { HeroCarousel } from "./components/hero-carousel";
+import { RestaurantList } from "@/components/restaurant-list";
+import { Search } from "./components/search";
 
-const HomePage = () => {
+const getPromotionalProducts = () => {
+  return db.product.findMany({
+    where: {
+      discountPercentage: {
+        gt: 0,
+    }, },
+    include: {
+      restaurant: true,
+    },
+    take: 5,
+}); };
+
+const HomePage = async () => {
+  const promotionalProducts = await getPromotionalProducts();
+
   return (
     <div className="space-y-6 py-6">
-      <div className="px-5">
-        <HeroCarousel />
-      </div>
-
       <div className="px-5">
         <Search />
       </div>
 
+      <HeroCarousel promotionalProducts={promotionalProducts} />
+      
       <CategoryList />
 
-      <RestaurantList title="Ofertas Especiais" />
-      
       <RestaurantList title="Restaurantes Recomendados" />
     </div>
 ); };

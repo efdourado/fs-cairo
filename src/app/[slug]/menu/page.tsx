@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
-import RestaurantCategories from "./components/categories";
-import { RestaurantController } from "@/controllers/restaurant.controller";
 import Image from "next/image";
-
+import { AppRestaurantController } from "@/controllers";
+import Menu from "./components/menu";
 
 interface RestaurantMenuPageProps {
   params: Promise<{ slug: string }>;
@@ -10,15 +9,10 @@ interface RestaurantMenuPageProps {
 }
 
 const isOrderTypeValid = (orderType: string) => {
-  return ["DINEIN", "TAKEAWAY"].includes(orderType.toUpperCase());
+  return ["DINEIN", "TAKEAWAY"].includes(orderType?.toUpperCase());
 };
 
-const restaurantController = new RestaurantController();
-
-const RestaurantMenuPage = async ({
-  params,
-  searchParams,
-}: RestaurantMenuPageProps) => {
+const RestaurantMenuPage = async ({ params, searchParams }: RestaurantMenuPageProps) => {
   const { slug } = await params;
   const { orderType } = await searchParams;
 
@@ -26,24 +20,25 @@ const RestaurantMenuPage = async ({
     return notFound();
   }
 
-  const { success, restaurant } = await restaurantController.getRestaurantWithCategories(slug);
+  const { restaurant } = await AppRestaurantController.getRestaurantWithCategories(slug);
 
-  if (!success || !restaurant) {
+  if (!restaurant) {
     return notFound();
   }
 
   return (
     <div>
-      <div className="relative h-[250px] w-full">
+      <div className="relative h-64 w-full">
         <Image
           src={restaurant.bannerUrl}
           alt={restaurant.name}
           fill
           className="object-cover"
+          priority
         />
         <div className="absolute inset-0 bg-black/50" />
       </div>
-      <RestaurantCategories restaurant={restaurant} />
+      <Menu restaurant={restaurant} />
     </div>
 ); };
 

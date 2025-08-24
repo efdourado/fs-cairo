@@ -1,6 +1,6 @@
 import { db } from "@/lib/prisma";
 import { Restaurant } from "@prisma/client";
-import { IRestaurantDAO, RestaurantWithCategories } from "../interfaces/i-restaurant.dao";
+import { IRestaurantDAO, RestaurantWithDetails } from "../interfaces/i-restaurant.dao";
 
 export class RestaurantDAO implements IRestaurantDAO {
   async findMany(): Promise<Restaurant[]> {
@@ -12,10 +12,13 @@ export class RestaurantDAO implements IRestaurantDAO {
       where: { slug },
   }); }
 
-  async findUniqueWithCategories(slug: string): Promise<RestaurantWithCategories | null> {
+  async findUniqueWithCategories(slug: string): Promise<RestaurantWithDetails | null> {
     return db.restaurant.findUnique({
       where: { slug },
       include: {
         categories: {
-          include: { products: true },
-}, }, }); } }
+          include: {
+            subCategories: {
+              include: {
+                products: true,
+}, }, }, }, }, }); } }
