@@ -5,7 +5,6 @@ import Link from "next/link";
 import { OrderType } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import OrderTypeOption from "./order-type-option";
-import { Separator } from "@/components/ui/separator";
 
 interface OrderTypeSelectorProps {
   slug: string;
@@ -34,7 +33,7 @@ const OrderTypeSelector = ({ slug }: OrderTypeSelectorProps) => {
             option="TAKEAWAY"
             buttonText="Para Viagem"
             note="Retire no balcão ou receba em casa"
-            icon="🚀"
+            icon="📦"
             isSelected={selectedOption === "TAKEAWAY"}
             onClick={() => setSelectedOption("TAKEAWAY")}
           />

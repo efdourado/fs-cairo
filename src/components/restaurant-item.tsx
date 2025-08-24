@@ -2,7 +2,7 @@ import { Restaurant } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { Card } from "./ui/card";
-import { StarIcon, TimerIcon, SparklesIcon } from "lucide-react";
+import { StarIcon, TimerIcon } from "lucide-react";
 import { formatCurrency } from "@/helpers/format-currency";
 
 interface RestaurantItemProps {
@@ -11,31 +11,53 @@ interface RestaurantItemProps {
 
 const RestaurantItem = ({ restaurant }: RestaurantItemProps) => {
   return (
-    <Link href={`/${restaurant.slug}`} className="min-w-[280px] max-w-[280px]">
-      <Card className="w-full rounded-lg shadow-md transition-transform duration-300 hover:scale-105">
-        <div className="relative h-36 w-full overflow-hidden rounded-t-lg">
+    <Link
+      href={`/${restaurant.slug}`}
+      className="block min-w-[300px] max-w-[300px] transition-transform duration-300 hover:scale-105"
+    >
+      <Card className="w-full overflow-hidden rounded-lg">
+        <div className="relative h-36 w-full">
           <Image
             src={restaurant.bannerUrl}
             alt={restaurant.name}
             fill
             className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 768px) 100vw, 33vw"
           />
-          <div className="absolute left-2 top-2 flex items-center gap-1 rounded-full bg-background/80 px-2 py-1 text-xs font-bold backdrop-blur-sm">
-            <StarIcon size={14} className="fill-yellow-400 text-yellow-500" />
-            <span>{restaurant.rating.toFixed(1)}</span>
-          </div>
         </div>
-        <div className="p-3">
-          <h3 className="truncate text-base font-semibold">{restaurant.name}</h3>
-          <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
-            <div className="flex items-center gap-1">
-              <TimerIcon size={14} />
-              <span>{restaurant.deliveryTimeMinutes} min</span>
+
+        <div className="relative p-4">
+          <div className="absolute -top-12 left-4 h-24 w-24 overflow-hidden rounded-full border-4 border-white bg-white shadow-lg">
+            <Image
+              src={restaurant.logoUrl}
+              alt={restaurant.name}
+              fill
+              className="object-contain"
+              sizes="96px"
+            />
+          </div>
+
+          <div className="mt-12 flex flex-col gap-1">
+            <div className="flex items-center gap-2">
+              <h3 className="truncate text-base font-semibold">
+                {restaurant.name}
+              </h3>
+              <div className="ml-auto flex items-center gap-1 rounded-full bg-primary px-2 py-0.5 text-xs font-bold text-white">
+                <StarIcon size={12} className="fill-white" />
+                <span>{restaurant.rating.toFixed(1)}</span>
+              </div>
             </div>
-            <div className="flex items-center gap-1">
-              <SparklesIcon size={14} className="text-primary" />
-              <span>{formatCurrency(restaurant.deliveryFee)}</span>
+
+            <p className="truncate text-sm text-muted-foreground">
+              {restaurant.description}
+            </p>
+
+            <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
+              <span>Entrega: {formatCurrency(restaurant.deliveryFee)}</span>
+              <div className="flex items-center gap-1">
+                <TimerIcon size={14} />
+                <span>{restaurant.deliveryTimeMinutes} min</span>
+              </div>
             </div>
           </div>
         </div>

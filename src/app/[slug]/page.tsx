@@ -19,7 +19,6 @@ const RestaurantPage = async ({ params: { slug } }: RestaurantPageProps) => {
 
   return (
     <div className="flex h-full flex-col">
-      {/* HERO SECTION APRIMORADO */}
       <div className="relative h-48 w-full">
         <Image
           src={restaurant.bannerUrl}
@@ -30,7 +29,7 @@ const RestaurantPage = async ({ params: { slug } }: RestaurantPageProps) => {
         />
         <div className="absolute inset-0 bg-black/60" />
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-center text-white">
-          <div className="relative h-16 w-16">
+          <div className="relative h-20 w-20 rounded-full border-4 border-white bg-white shadow-lg">
             <Image
               src={restaurant.logoUrl}
               alt={restaurant.name}
@@ -43,7 +42,6 @@ const RestaurantPage = async ({ params: { slug } }: RestaurantPageProps) => {
         </div>
       </div>
 
-      {/* INFORMAÇÕES ADICIONAIS */}
       <div className="flex justify-around border-b border-border bg-card p-4">
         <div className="flex flex-col items-center">
           <div className="flex items-center gap-1">
