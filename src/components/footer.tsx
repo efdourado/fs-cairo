@@ -1,6 +1,6 @@
 "use client";
 
-import { HeartIcon, HomeIcon, ScrollTextIcon, UserIcon } from "lucide-react";
+import { LayoutList, HeartIcon, HomeIcon, ScrollTextIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
@@ -10,15 +10,15 @@ const Footer = () => {
   const pathname = usePathname();
 
   const NAV_ITEMS = [
-    { href: "/", label: "Home", icon: HomeIcon },
-    { href: "/mcdonaldsmodel/orders", label: "My Orders", icon: ScrollTextIcon, badge: 2 },
-    { href: "/favorites", label: "Favorites", icon: HeartIcon },
-    { href: "/profile", label: "Profile", icon: UserIcon },
+    { href: "/", label: "Início", icon: HomeIcon },
+    { href: "/favourites", label: "Salvos", icon: HeartIcon },
+    { href: "/mcdonaldsmodel/orders", label: "Pedidos", icon: ScrollTextIcon, badge: 2 },
+    { href: "/profile", label: "Perfil", icon: UserIcon },
   ];
 
   return (
     <footer className="fixed bottom-0 z-50 w-full border-t border-border/50 bg-background shadow-t-md">
-      <nav className="flex h-[65px] items-center justify-around px-5">
+      <nav className="flex h-[65px] items-center justify-around">
         {NAV_ITEMS.map(({ href, label, icon: Icon, badge }) => {
           const isActive = pathname === href;
 
@@ -48,8 +48,7 @@ const Footer = () => {
                 </span>
               )}
             </Link>
-          );
-        })}
+        ); })}
       </nav>
     </footer>
 ); };

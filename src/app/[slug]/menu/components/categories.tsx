@@ -19,7 +19,6 @@ interface RestaurantCategoriesProps {
 }
 
 const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
-  // Safely initialize with the first category, or undefined if none exist
   const [selectedCategory, setSelectedCategory] = useState<CategoryWithSubCategories | undefined>(
     restaurant.categories[0]
   );

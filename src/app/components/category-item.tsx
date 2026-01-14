@@ -7,13 +7,6 @@ interface CategoryItemProps {
 }
 
 export const CategoryItem = ({ category }: CategoryItemProps) => {
-  const categoryImages: { [key: string]: string } = {
-    Lanches: "/fries.png",
-  };
-
-  const categoryImage =
-    categoryImages[category.name] || "/default-category.png";
-
   return (
     <Link
       href={`/categories/${category.id}`}
@@ -21,13 +14,14 @@ export const CategoryItem = ({ category }: CategoryItemProps) => {
     >
       <div className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary">
         <Image
-          src={categoryImage}
+          src="/default-category.png"
           alt={category.name}
-          height={40}
-          width={40}
+          height={43}
+          width={43}
           className="object-contain"
         />
       </div>
-      <span className="mt-2 text-xs font-medium">{category.name}</span>
+
+      <span className="mt-1 text-xs font-medium truncate max-w-[72px]">{category.name}</span>
     </Link>
 ); };

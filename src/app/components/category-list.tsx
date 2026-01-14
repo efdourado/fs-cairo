@@ -7,7 +7,7 @@ export const CategoryList = async () => {
   });
 
   return (
-    <div className="flex gap-3 overflow-x-scroll px-5 [&::-webkit-scrollbar]:hidden">
+    <div className="flex gap-4 overflow-x-scroll px-5 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
       {categories.map((category) => (
         <CategoryItem key={category.id} category={category} />
       ))}

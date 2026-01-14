@@ -26,10 +26,8 @@ const HomePage = async () => {
       </div>
 
       <HeroCarousel promotionalProducts={promotionalProducts} />
-      
       <CategoryList />
-
-      <RestaurantList title="Restaurantes Recomendados" />
+      <RestaurantList title="Nossos Restaurantes" />
     </div>
 ); };
 

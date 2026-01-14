@@ -13,7 +13,7 @@ const RestaurantItem = ({ restaurant }: RestaurantItemProps) => {
   return (
     <Link
       href={`/${restaurant.slug}`}
-      className="block min-w-[300px] max-w-[300px] transition-transform duration-300 hover:scale-105"
+      className="block min-w-[250px] max-w-[250px] transition-transform duration-300 hover:scale-105"
     >
       <Card className="w-full overflow-hidden rounded-lg">
         <div className="relative h-36 w-full">
@@ -27,7 +27,7 @@ const RestaurantItem = ({ restaurant }: RestaurantItemProps) => {
         </div>
 
         <div className="relative p-4">
-          <div className="absolute -top-12 left-4 h-24 w-24 overflow-hidden rounded-full border-4 border-white bg-white shadow-lg">
+          <div className="absolute -top-8 left-4 h-16 w-16 overflow-hidden rounded-full border-4 border-white bg-white shadow-lg">
             <Image
               src={restaurant.logoUrl}
               alt={restaurant.name}
@@ -37,7 +37,7 @@ const RestaurantItem = ({ restaurant }: RestaurantItemProps) => {
             />
           </div>
 
-          <div className="mt-12 flex flex-col gap-1">
+          <div className="mt-6 flex flex-col gap-1">
             <div className="flex items-center gap-2">
               <h3 className="truncate text-base font-semibold">
                 {restaurant.name}
@@ -52,7 +52,7 @@ const RestaurantItem = ({ restaurant }: RestaurantItemProps) => {
               {restaurant.description}
             </p>
 
-            <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
+            <div className="mt-3 flex items-center justify-between gap-3 text-xs text-muted-foreground">
               <span>Entrega: {formatCurrency(restaurant.deliveryFee)}</span>
               <div className="flex items-center gap-1">
                 <TimerIcon size={14} />
