@@ -1,29 +1,46 @@
 "use client";
 
-import {
-  ChevronLeftIcon,
-  MapPinIcon,
-  ShoppingCartIcon,
-} from "lucide-react";
-import { useRouter, useParams } from "next/navigation";
+import { ChevronLeftIcon, MapPinIcon, ShoppingCartIcon } from "lucide-react";
+import { useRouter, useParams, usePathname } from "next/navigation";
 import { Button } from "./ui/button";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { CartContext } from "@/app/[slug]/menu/contexts/cart";
 import { cn } from "@/lib/utils";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 
 const Header = () => {
   const router = useRouter();
   const params = useParams();
-  const { toggleCart, totalQuantity } = useContext(CartContext);
+  const pathname = usePathname();
+  const { toggleCart, totalQuantity, products, setProducts } = useContext(CartContext);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const handleBackClick = () => {
+    const isMenuPage = pathname.endsWith("/menu");
 
-  const handleBackClick = () => router.back();
-  const handleOrdersClick = () => router.push(`/${params.slug}/orders`);
-
-  const isRestaurantPage = params.slug;
+    if (products.length > 0 && isMenuPage) {
+      setIsDrawerOpen(true);
+    } else {
+      router.back();
+  } };
+  const onConfirmBack = () => {
+    setProducts([]);
+    setIsDrawerOpen(false);
+    router.back();
+  };
+  const isRestaurantPage = !!params.slug;
 
   return (
     <header
-      className={cn("absolute top-0 left-0 w-full z-10 flex items-center justify-between px-6 py-5",
+      className={cn(
+        "absolute top-0 left-0 w-full z-10 flex items-center justify-between px-6 py-5",
         isRestaurantPage ? "bg-transparent text-white" : "bg-background text-foreground"
       )}
     >
@@ -32,9 +49,9 @@ const Header = () => {
           onClick={handleBackClick}
           variant="secondary"
           size="icon"
-          className="rounded-full"
+          className="rounded-full h-11 w-11 bg-white text-black"
         >
-          <ChevronLeftIcon />
+          <ChevronLeftIcon size={24} />
         </Button>
       ) : (
         <div className="flex flex-col">
@@ -42,10 +59,7 @@ const Header = () => {
             <MapPinIcon size={20} className="text-primary -ml-0.5" />
             <span className="text-sm font-semibold">São Paulo, SP</span>
           </div>
-          
-          <span className="text-xs text-muted-foreground">
-            Selecione seu endereço
-          </span>
+          <span className="text-xs text-muted-foreground">Selecione seu endereço</span>
         </div>
       )}
 
@@ -54,9 +68,9 @@ const Header = () => {
           onClick={toggleCart}
           variant="secondary"
           size="icon"
-          className="rounded-full"
+          className="rounded-full h-11 w-11"
         >
-          <ShoppingCartIcon />
+          <ShoppingCartIcon size={24} />
         </Button>
         {totalQuantity > 0 && (
           <span className="absolute -right-2 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
@@ -64,6 +78,33 @@ const Header = () => {
           </span>
         )}
       </div>
+
+      <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+        <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Sair?</DrawerTitle>
+              <DrawerDescription>
+                Seu carrinho tem itens! Se sair, os itens não serão salvos.
+              </DrawerDescription>
+            </DrawerHeader>
+
+            <DrawerFooter>
+              <Button 
+                onClick={onConfirmBack} 
+                variant="destructive"
+                className="w-full rounded-full"
+              >
+                Sair mesmo assim
+              </Button>
+
+              <DrawerClose asChild>
+                <Button variant="outline" className="w-full rounded-full">
+                  Cancelar
+                </Button>
+              </DrawerClose>
+            </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </header>
 ); };
 
