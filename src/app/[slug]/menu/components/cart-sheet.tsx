@@ -8,7 +8,6 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { formatCurrency } from "@/helpers/format-currency";
-
 import { CartContext } from "../contexts/cart";
 import CartProductItem from "./cart-product-item";
 import FinishOrderDialog from "./finish-order-dialog";
@@ -20,12 +19,11 @@ const CartSheet = () => {
   return (
     <Sheet open={isOpen} onOpenChange={toggleCart}>
       <SheetContent className="w-[80%] flex flex-col">
-
         <SheetHeader>
-        <SheetTitle className="text-left">Cart</SheetTitle>
+          <SheetTitle className="text-left">Carrinho</SheetTitle>
         </SheetHeader>
 
-        <div className="flex-grow overflow-auto py-5">
+        <div className="flex-grow overflow-auto space-y-5">
           {products.map((product) => (
             <CartProductItem key={product.id} product={product} />
           ))}
@@ -42,16 +40,15 @@ const CartSheet = () => {
           </Card>
 
           <div className="flex flex-col gap-1">
-            <Button className="w-full rounded-full" onClick={() => setFinishOrderDialogIsOpen(true)}>Proceed</Button>
+            <Button className="w-full rounded-full" onClick={() => setFinishOrderDialogIsOpen(true)}>Prosseguir</Button>
             
-            <Button variant="outline" className="w-full rounded-full" onClick={toggleCart}>Continue Ordering</Button>
+            <Button variant="outline" className="w-full rounded-full" onClick={toggleCart}>Continuar Pedindo</Button>
           </div>
         </div>
 
         <FinishOrderDialog open={finishOrderDialogIsOpen} onOpenChange={setFinishOrderDialogIsOpen} />
       </SheetContent>
     </Sheet>
-  );
-};
+); };
 
 export default CartSheet;

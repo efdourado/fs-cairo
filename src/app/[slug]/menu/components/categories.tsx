@@ -3,7 +3,6 @@
 import { useContext, useState } from "react";
 import Image from "next/image";
 import { ClockIcon } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { RestaurantWithDetails } from "@/persistence/daos/interfaces/i-restaurant.dao";

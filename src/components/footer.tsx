@@ -18,7 +18,7 @@ const Footer = () => {
 
   return (
     <footer className="fixed bottom-0 z-50 w-full border-t border-border/50 bg-background shadow-t-md">
-      <nav className="flex h-[65px] items-center justify-around">
+      <nav className="flex h-[65px] items-center justify-between px-6">
         {NAV_ITEMS.map(({ href, label, icon: Icon, badge }) => {
           const isActive = pathname === href;
 

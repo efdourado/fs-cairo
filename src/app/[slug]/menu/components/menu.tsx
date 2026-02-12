@@ -19,6 +19,7 @@ interface MenuProps {
 
 const Menu = ({ restaurant }: MenuProps) => {
   const allSubCategories = restaurant.categories.flatMap(category => category.subCategories);
+  
 
   const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategoryWithProducts | undefined>(
     allSubCategories[0]
@@ -48,7 +49,7 @@ const Menu = ({ restaurant }: MenuProps) => {
             <p className="text-sm text-muted-foreground">{restaurant.description}</p>
           </div>
         </div>
-        <div className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
+        <div className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground text-green-600">
           <ClockIcon size={16} />
           <span>Aberto</span>
         </div>
@@ -78,20 +79,24 @@ const Menu = ({ restaurant }: MenuProps) => {
         )}
       </div>
 
-      {isCartVisible && (
-        <div className="fixed bottom-0 left-0 z-20 w-full border-t bg-background p-5 shadow-t-md">
-          <div className="mx-auto flex max-w-lg items-center justify-between">
-            <div>
-              <p className="text-xs text-muted-foreground">Total do Pedido</p>
-              <p className="text-base font-semibold">
-                {formatCurrency(total)}
-                <span className="text-xs font-normal text-muted-foreground">
-                  {" "}
-                  / {totalQuantity} {totalQuantity > 1 ? "itens" : "item"}
-                </span>
-              </p>
+      {products.length > 0 && (
+        <div className="fixed bottom-20 left-0 right-0 z-50 flex w-full justify-center px-5">
+          <div className="w-full  rounded-full border bg-white shadow-md">
+            <div className="flex items-center justify-between px-5 py-3">
+              <div>
+                <p className="text-xs text-muted-foreground">Total do pedido</p>
+                <p className="text-sm font-semibold">
+                  {formatCurrency(total)}
+                  <span className="text-xs font-normal text-muted-foreground">
+                    {" "} | {totalQuantity} {totalQuantity > 1 ? "itens" : "item"}
+                  </span>
+                </p>
+              </div>
+
+              <Button onClick={toggleCart} className="rounded-full font-semibold">
+                Conferir Carrinho
+              </Button>
             </div>
-            <Button onClick={toggleCart}>Ver carrinho</Button>
           </div>
         </div>
       )}
