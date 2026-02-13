@@ -49,7 +49,7 @@ const OrderTypeSelector = ({ slug }: OrderTypeSelectorProps) => {
           selectedOption ? 'translate-y-0' : 'translate-y-full'
         }`}
       >
-        <Button className="w-full h-14 text-lg font-bold shadow-lg group" asChild>
+        <Button className="w-full h-12 text-md font-bold shadow-lg group rounded-full" asChild>
           <Link href={`/${slug}/menu?orderType=${selectedOption}`}>
             Começar meu Pedido
             <ArrowRightIcon className="ml-2 group-hover:translate-x-1 transition-transform" />

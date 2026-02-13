@@ -1,23 +1,14 @@
 const { PrismaClient } = require("@prisma/client");
-
 const prismaClient = new PrismaClient();
 
-const PRODUCT_IMAGES = [
-  "/memphis-logo-grey.png",
-];
-
-const BANNER_IMAGES = [
-  "https://od.lk/s/OThfNDE4NDU0MzJf/fb.jpg",
-];
-
-const LOGO_IMAGES = [
-  "/memphis-logo-grey.png",
-];
+const PRODUCT_IMAGES = [ "/memphis-logo-grey.png", ];
+const BANNER_IMAGES = [ "https://od.lk/s/OThfNDE4NDU0MzJf/fb.jpg", ];
+const LOGO_IMAGES = [ "/memphis-logo-grey.png", ];
 
 const TOTAL_RESTAURANTS = 3;
-const CATEGORIES_PER_RESTAURANT = 8;
-const SUBCATEGORIES_PER_CATEGORY = 6;
-const PRODUCTS_PER_SUBCATEGORY = 5;
+const CATEGORIES_PER_RESTAURANT = 5;
+const SUBCATEGORIES_PER_CATEGORY = 3;
+const PRODUCTS_PER_SUBCATEGORY = 4;
 
 const main = async () => {
   console.log("\n\nIniciando...");
@@ -52,16 +43,20 @@ const main = async () => {
     console.log(`Restaurante Criado: ${restaurant.name}`);
 
     for (let j = 1; j <= CATEGORIES_PER_RESTAURANT; j++) {
+      const categoryName = `Categoria ${j}`;
+      
       const category = await prismaClient.category.create({
         data: {
-          name: `Categoria ${j}`,
+          name: categoryName,
           restaurantId: restaurant.id,
       }, });
 
       for (let k = 1; k <= SUBCATEGORIES_PER_CATEGORY; k++) {
+        const subCategoryName = `Grupo ${k} (${categoryName})`;
+
         const subCategory = await prismaClient.subCategory.create({
           data: {
-            name: `Subcategoria ${k}`,
+            name: subCategoryName,
             categoryId: category.id,
         }, });
 
@@ -74,8 +69,8 @@ const main = async () => {
           const basePrice = 20 + l * 2;
           
           productsData.push({
-            name: `Produto ${l} (C${j}-S${k})`,
-            description: `Descrição detalhada para o produto ${l}. Feito com ingredientes selecionados e imagem manual ${imageIndex + 1}.`,
+            name: `Item ${l} - ${subCategoryName}`,
+            description: `Descrição detalhada do item ${l} pertencente à ${subCategoryName}.`,
             price: basePrice,
             imageUrl: PRODUCT_IMAGES[imageIndex],
             restaurantId: restaurant.id,
@@ -83,8 +78,7 @@ const main = async () => {
             discountPercentage: l % 2 === 0 ? 10 : 0,
             ingredients: [
               `Ingrediente Principal`,
-              `Acompanhamento ${l}`,
-              `Molho Especial`,
+              `Complemento ${l}`,
         ], }); }
 
         await prismaClient.product.createMany({

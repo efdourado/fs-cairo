@@ -49,7 +49,7 @@ const Menu = ({ restaurant }: MenuProps) => {
             <p className="text-sm text-muted-foreground">{restaurant.description}</p>
           </div>
         </div>
-        <div className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground text-green-600">
+        <div className="mt-3 flex items-center gap-1.5 text-sm text-green-600">
           <ClockIcon size={16} />
           <span>Aberto</span>
         </div>

@@ -22,6 +22,8 @@ const Header = () => {
   const pathname = usePathname();
   const { toggleCart, totalQuantity, products, setProducts } = useContext(CartContext);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const showCartButton = pathname.includes("/menu");
+
   const handleBackClick = () => {
     const isMenuPage = pathname.endsWith("/menu");
 
@@ -30,6 +32,7 @@ const Header = () => {
     } else {
       router.back();
   } };
+  
   const onConfirmBack = () => {
     setProducts([]);
     setIsDrawerOpen(false);
@@ -63,21 +66,23 @@ const Header = () => {
         </div>
       )}
 
-      <div className="relative">
-        <Button
-          onClick={toggleCart}
-          variant="secondary"
-          size="icon"
-          className="rounded-full h-11 w-11"
-        >
-          <ShoppingCartIcon size={24} />
-        </Button>
-        {totalQuantity > 0 && (
-          <span className="absolute -right-2 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-            {totalQuantity}
-          </span>
-        )}
-      </div>
+      {showCartButton && (
+        <div className="relative">
+          <Button
+            onClick={toggleCart}
+            variant="secondary"
+            size="icon"
+            className="rounded-full h-11 w-11"
+          >
+            <ShoppingCartIcon size={24} />
+          </Button>
+          {totalQuantity > 0 && (
+            <span className="absolute -right-2 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
+              {totalQuantity}
+            </span>
+          )}
+        </div>
+      )}
 
       <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
         <DrawerContent>
